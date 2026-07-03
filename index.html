@@ -46,93 +46,68 @@
     .step { width: 100%; display: flex; flex-direction: column; align-items: center; }
 
     /* 정보 입력 폼 */
-    .form-wrap {
-      position: relative; z-index: 2; width: 100%; max-width: 430px; height: 100vh;
-      overflow-y: auto; background: rgba(255,255,255,0.97);
-      display: flex; flex-direction: column; padding: 32px 24px 40px;
-    }
+    .form-wrap { position: absolute; inset: 0; z-index: 50; width: 100%; height: 100%; overflow-y: auto; background: rgba(255,255,255,0.97); display: flex; flex-direction: column; padding: 36px 24px 48px; }
     .form-title { font-size: 22px; font-weight: 900; color: #3B1E08; margin-bottom: 6px; text-align: center; }
     .form-subtitle { font-size: 13px; color: #888; text-align: center; margin-bottom: 28px; line-height: 1.6; }
     .form-group { margin-bottom: 18px; }
-    .form-label { font-size: 14px; font-weight: 700; color: #444; margin-bottom: 6px; display: block; }
-    .form-input {
-      width: 100%; padding: 14px 16px; border: 1.5px solid #e0e0e0; border-radius: 12px;
-      font-size: 15px; color: #222; outline: none; transition: border 0.2s;
-      font-family: inherit; background: #fff;
-    }
-    .form-input:focus { border-color: #FEE500; }
+    .form-label { font-size: 14px; font-weight: 700; color: #444; margin-bottom: 7px; display: block; }
+    .form-input { width: 100%; padding: 14px 16px; border: 1.5px solid #e0e0e0; border-radius: 12px; font-size: 15px; color: #222; outline: none; transition: border 0.2s; font-family: inherit; background: #fff; }
+    .form-input:focus { border-color: #FEE500; box-shadow: 0 0 0 3px rgba(254,229,0,0.2); }
+    select.form-input { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
     .school-search-wrap { position: relative; }
-    .school-list {
-      position: absolute; top: calc(100% + 4px); left: 0; right: 0;
-      background: #fff; border: 1.5px solid #e0e0e0; border-radius: 12px;
-      max-height: 200px; overflow-y: auto; z-index: 100;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-    }
-    .school-item {
-      padding: 12px 16px; cursor: pointer; font-size: 14px; color: #333;
-      border-bottom: 1px solid #f0f0f0; line-height: 1.4;
-    }
+    .school-list { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: #fff; border: 1.5px solid #e0e0e0; border-radius: 12px; max-height: 210px; overflow-y: auto; z-index: 200; box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+    .school-item { padding: 12px 16px; cursor: pointer; font-size: 14px; color: #333; border-bottom: 1px solid #f5f5f5; line-height: 1.4; }
     .school-item:last-child { border-bottom: none; }
-    .school-item:hover { background: #fffbe6; }
-    .school-item .school-region { font-size: 12px; color: #999; margin-top: 2px; }
+    .school-item:hover, .school-item:active { background: #fffbe6; }
+    .school-item .school-sub { font-size: 12px; color: #999; margin-top: 3px; }
+    .school-selected { background: #fffbe6 !important; border-color: #FEE500 !important; }
     .row-2 { display: flex; gap: 12px; }
-    .row-2 .form-group { flex: 1; }
-    .consent-box {
-      background: #f8f8f8; border-radius: 12px; padding: 14px 16px;
-      font-size: 12px; color: #666; line-height: 1.7; margin-bottom: 8px;
-      max-height: 100px; overflow-y: auto; border: 1px solid #e8e8e8;
-    }
+    .row-2 .form-group { flex: 1; margin-bottom: 0; }
+    .consent-box { background: #f8f8f8; border-radius: 10px; padding: 14px 16px; font-size: 12px; color: #666; line-height: 1.8; margin-bottom: 10px; max-height: 90px; overflow-y: auto; border: 1px solid #ebebeb; }
     .consent-check { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700; color: #333; cursor: pointer; }
-    .consent-check input { width: 20px; height: 20px; accent-color: #FEE500; cursor: pointer; }
-    .submit-btn {
-      margin-top: 28px; background: #FEE500; color: #3B1E08; border: none;
-      border-radius: 16px; padding: 18px; font-size: 17px; font-weight: 800;
-      cursor: pointer; width: 100%; box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-      transition: transform 0.1s; font-family: inherit;
-    }
+    .consent-check input[type=checkbox] { width: 20px; height: 20px; accent-color: #c8860a; cursor: pointer; flex-shrink: 0; }
+    .submit-btn { margin-top: 28px; background: #FEE500; color: #3B1E08; border: none; border-radius: 16px; padding: 18px; font-size: 17px; font-weight: 800; cursor: pointer; width: 100%; box-shadow: 0 4px 14px rgba(0,0,0,0.15); transition: transform 0.1s; font-family: inherit; letter-spacing: -0.3px; }
     .submit-btn:active { transform: scale(0.97); }
-    .submit-btn:disabled { background: #ddd; color: #999; cursor: not-allowed; }
+    .submit-btn:disabled { background: #e0e0e0; color: #aaa; cursor: not-allowed; transform: none; }
 
     /* 완료 화면 */
-    .done-wrap {
-      position: relative; z-index: 2; width: 100%; max-width: 430px; height: 100vh;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 40px 32px; text-align: center;
-    }
-    .done-icon { font-size: 64px; margin-bottom: 20px; }
-    .done-title { font-size: 26px; font-weight: 900; color: #fff; margin-bottom: 12px; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
-    .done-sub { font-size: 15px; color: rgba(255,255,255,0.88); line-height: 1.8; word-break: keep-all; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+    .done-wrap { position: absolute; inset: 0; z-index: 60; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 32px; text-align: center; background-image: url('https://i.imgur.com/KASJTsw.jpg'); background-size: cover; background-position: center; }
+    .done-wrap::before { content:''; position:absolute; inset:0; background:rgba(0,0,0,0.2); }
+    .done-inner { position: relative; z-index: 1; }
+    .done-icon { font-size: 72px; margin-bottom: 20px; }
+    .done-title { font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 14px; text-shadow: 0 2px 10px rgba(0,0,0,0.4); }
+    .done-sub { font-size: 16px; color: rgba(255,255,255,0.9); line-height: 1.9; word-break: keep-all; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
   </style>
 </head>
 <body>
 <div class="phone" id="main-phone">
   <div id="confetti-container"></div>
   <div class="content">
-    <!-- STEP 1: 배너 -->
+    <!-- STEP 1 배너 -->
     <div class="step" id="step-banner">
       <div class="box-wrap"><img class="box-img" src="https://i.imgur.com/pqUst9E.jpg" alt="선물상자"/></div>
       <p class="banner-text">이 상자, 우리 반 전원의<br>선물일지도 몰라요.<span class="sub">공유하고 열어보세요 🎁</span></p>
       <button class="btn" onclick="doKakaoShare()">카카오톡으로 공유하기</button>
     </div>
-    <!-- STEP 2: 공유 확인 -->
+    <!-- STEP 2 공유 확인 -->
     <div class="step hidden" id="step-confirm">
       <div class="box-wrap"><img class="box-img" src="https://i.imgur.com/pqUst9E.jpg" alt="선물상자"/></div>
       <p class="banner-text">친구에게 공유했나요? 🎁<span class="sub">전송 후 아래 버튼을 눌러주세요</span></p>
       <button class="btn" onclick="openBox()">네! 상자 열어보기 💛</button>
     </div>
-    <!-- STEP 3: 흔들기 -->
+    <!-- STEP 3 흔들기 -->
     <div class="step hidden" id="step-shake">
       <div class="box-wrap"><img class="box-img" id="box-shaking" src="https://i.imgur.com/pqUst9E.jpg" alt="흔들리는 상자"/></div>
       <p class="banner-text">두근두근...! 🎁</p>
     </div>
-    <!-- STEP 4: 열리는 중 -->
+    <!-- STEP 4 열리는 중 -->
     <div class="step hidden" id="step-opening">
-      <div class="box-wrap"><img class="box-img anim-pop" id="img-opening" src="https://i.imgur.com/tYowSVy.jpg" alt="열리는 상자"/></div>
+      <div class="box-wrap"><img class="box-img" id="img-opening" src="https://i.imgur.com/tYowSVy.jpg" alt="열리는 상자"/></div>
       <p class="banner-text">열리고 있어요...! ✨</p>
     </div>
-    <!-- STEP 5: 결과 -->
+    <!-- STEP 5 결과 -->
     <div class="step hidden" id="step-result">
-      <div class="box-wrap" id="result-box-wrap">
+      <div class="box-wrap">
         <img class="box-img" id="result-img" src="https://i.imgur.com/Nr2I9JG.jpg" alt="결과"/>
         <img class="product-item" id="prod1" src="https://i.imgur.com/swGtqVA.jpg" alt="상품1"/>
         <img class="product-item" id="prod2" src="https://i.imgur.com/oJHpVTW.jpg" alt="상품2"/>
@@ -149,85 +124,88 @@
       </div>
     </div>
   </div>
-</div>
 
-<!-- 정보 입력 폼 -->
-<div class="form-wrap hidden" id="step-form">
-  <p class="form-title">🎉 당첨을 축하드려요!</p>
-  <p class="form-subtitle">선물 발송을 위해 아래 정보를 입력해 주세요.<br>입력하신 정보는 선물 발송 목적으로만 사용됩니다.</p>
+  <!-- 정보 입력 폼 -->
+  <div class="form-wrap hidden" id="step-form">
+    <p class="form-title">🎉 당첨을 축하드려요!</p>
+    <p class="form-subtitle">선물 발송을 위해 아래 정보를 입력해 주세요.<br>입력하신 정보는 선물 발송 목적으로만 사용됩니다.</p>
 
-  <div class="form-group">
-    <label class="form-label">학교 검색 🔍</label>
-    <div class="school-search-wrap">
-      <input class="form-input" id="school-input" type="text" placeholder="학교 이름을 입력하세요" oninput="searchSchool(this.value)" autocomplete="off"/>
-      <input type="hidden" id="school-code" />
-      <input type="hidden" id="school-region" />
-      <div class="school-list hidden" id="school-list"></div>
-    </div>
-  </div>
-
-  <div class="row-2">
     <div class="form-group">
-      <label class="form-label">학년</label>
-      <select class="form-input" id="grade">
-        <option value="">선택</option>
-        <option>1학년</option><option>2학년</option><option>3학년</option>
-        <option>4학년</option><option>5학년</option><option>6학년</option>
-      </select>
+      <label class="form-label">학교 검색 🔍</label>
+      <div class="school-search-wrap">
+        <input class="form-input" id="school-input" type="text" placeholder="학교 이름을 입력하세요 (2글자 이상)" oninput="searchSchool(this.value)" autocomplete="off"/>
+        <input type="hidden" id="school-code"/>
+        <input type="hidden" id="school-region"/>
+        <div class="school-list hidden" id="school-list"></div>
+      </div>
     </div>
+
+    <div class="row-2" style="margin-bottom:18px;">
+      <div class="form-group">
+        <label class="form-label">학년</label>
+        <select class="form-input" id="grade">
+          <option value="">선택</option>
+          <option>1학년</option><option>2학년</option><option>3학년</option>
+          <option>4학년</option><option>5학년</option><option>6학년</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">반</label>
+        <input class="form-input" id="class-num" type="number" placeholder="예) 3" min="1" max="30"/>
+      </div>
+    </div>
+
     <div class="form-group">
-      <label class="form-label">반</label>
-      <input class="form-input" id="class-num" type="number" placeholder="예) 3" min="1" max="30"/>
+      <label class="form-label">학급 인원수</label>
+      <input class="form-input" id="class-size" type="number" placeholder="예) 25" min="1" max="50"/>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">보호자 이름</label>
+      <input class="form-input" id="parent-name" type="text" placeholder="홍길동"/>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">연락처</label>
+      <input class="form-input" id="phone" type="tel" placeholder="010-0000-0000" oninput="formatPhone(this)"/>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">개인정보 수집 및 이용 동의</label>
+      <div class="consent-box">
+        수집 항목: 보호자 이름, 연락처, 학교명, 학년, 반, 학급 인원수<br>
+        수집 목적: 이벤트 당첨 선물 발송<br>
+        보유 기간: 선물 발송 완료 후 즉시 파기<br>
+        귀하는 개인정보 수집 및 이용에 동의를 거부할 권리가 있으며, 동의 거부 시 이벤트 참여가 제한될 수 있습니다.
+      </div>
+      <label class="consent-check">
+        <input type="checkbox" id="consent-check"/>
+        위 개인정보 수집 및 이용에 동의합니다.
+      </label>
+    </div>
+
+    <button class="submit-btn" id="submit-btn" onclick="submitForm()">선물 받기 신청 완료</button>
+  </div>
+
+  <!-- 완료 화면 -->
+  <div class="done-wrap hidden" id="step-done">
+    <div class="done-inner">
+      <div class="done-icon">🎁</div>
+      <p class="done-title">신청이 완료됐어요!</p>
+      <p class="done-sub">입력하신 정보로<br>선물을 보내드릴게요.<br><br>우리 반 친구들 모두<br>행복한 선물 받으세요 💛</p>
     </div>
   </div>
-
-  <div class="form-group">
-    <label class="form-label">학급 인원수</label>
-    <input class="form-input" id="class-size" type="number" placeholder="예) 25" min="1" max="50"/>
-  </div>
-
-  <div class="form-group">
-    <label class="form-label">보호자 이름</label>
-    <input class="form-input" id="parent-name" type="text" placeholder="홍길동"/>
-  </div>
-
-  <div class="form-group">
-    <label class="form-label">연락처</label>
-    <input class="form-input" id="phone" type="tel" placeholder="010-0000-0000" oninput="formatPhone(this)"/>
-  </div>
-
-  <div class="form-group">
-    <label class="form-label">개인정보 수집 및 이용 동의</label>
-    <div class="consent-box">
-      수집 항목: 보호자 이름, 연락처, 학교명, 학년, 반, 학급 인원수<br>
-      수집 목적: 이벤트 당첨 선물 발송<br>
-      보유 기간: 선물 발송 완료 후 즉시 파기<br>
-      귀하는 개인정보 수집 및 이용에 동의를 거부할 권리가 있으며, 동의 거부 시 이벤트 참여가 제한될 수 있습니다.
-    </div>
-    <label class="consent-check">
-      <input type="checkbox" id="consent-check"/>
-      위 개인정보 수집 및 이용에 동의합니다.
-    </label>
-  </div>
-
-  <button class="submit-btn" id="submit-btn" onclick="submitForm()">선물 받기 신청 완료</button>
-</div>
-
-<!-- 완료 화면 -->
-<div class="done-wrap hidden" id="step-done">
-  <div class="done-icon">🎁</div>
-  <p class="done-title">신청이 완료됐어요!</p>
-  <p class="done-sub">입력하신 정보로<br>선물을 보내드릴게요.<br><br>우리 반 친구들 모두<br>행복한 선물 받으세요 💛</p>
 </div>
 
 <script>
   Kakao.init('2a06402bffbfd011de0c92d6a8a3989a');
-  const API_KEY = '4898295bc8cb423ca485e377a0db1835';
+  const NEIS_KEY = '2c0ab4a2586640de86a6f78b8ced2ad3';
   let searchTimer = null;
+  let schoolSelected = false;
 
   function getOgImage() {
-    const ogImg = document.querySelector('meta[property="og:image"]');
-    return ogImg ? ogImg.content : 'https://i.imgur.com/pqUst9E.jpg';
+    const og = document.querySelector('meta[property="og:image"]');
+    return og ? og.content : 'https://i.imgur.com/pqUst9E.jpg';
   }
 
   function doKakaoShare() {
@@ -251,89 +229,91 @@
   function hide(id) { document.getElementById(id).classList.add('hidden'); }
 
   function openBox() {
-    hide('step-confirm');
-    show('step-shake');
-    const shakingBox = document.getElementById('box-shaking');
-    shakingBox.classList.remove('anim-shake'); void shakingBox.offsetWidth; shakingBox.classList.add('anim-shake');
+    hide('step-confirm'); show('step-shake');
+    const b = document.getElementById('box-shaking');
+    b.classList.remove('anim-shake'); void b.offsetWidth; b.classList.add('anim-shake');
     setTimeout(() => {
       hide('step-shake');
-      const imgOpening = document.getElementById('img-opening');
-      imgOpening.classList.remove('anim-pop'); void imgOpening.offsetWidth; imgOpening.classList.add('anim-pop');
+      const o = document.getElementById('img-opening');
+      o.classList.remove('anim-pop'); void o.offsetWidth; o.classList.add('anim-pop');
       show('step-opening');
-      setTimeout(() => {
-        hide('step-opening');
-        showResult(Math.random() < 0.5);
-      }, 1000);
+      setTimeout(() => { hide('step-opening'); showResult(Math.random() < 0.5); }, 1000);
     }, 1400);
   }
 
   function showResult(isWin) {
-    const resultImg = document.getElementById('result-img');
-    resultImg.classList.remove('anim-pop'); void resultImg.offsetWidth; resultImg.classList.add('anim-pop');
+    const ri = document.getElementById('result-img');
+    ri.classList.remove('anim-pop'); void ri.offsetWidth; ri.classList.add('anim-pop');
     show('step-result');
-    const title = document.getElementById('result-title');
-    const sub = document.getElementById('result-sub');
-    document.getElementById('btn-win-group').classList.add('hidden');
-    document.getElementById('btn-lose-group').classList.add('hidden');
     ['prod1','prod2','prod3','prod4'].forEach(id => {
       const el = document.getElementById(id);
       el.classList.remove('prod-anim-1','prod-anim-2','prod-anim-3','prod-anim-4');
       el.style.opacity = '0';
     });
+    document.getElementById('btn-win-group').classList.add('hidden');
+    document.getElementById('btn-lose-group').classList.add('hidden');
     if (isWin) {
-      title.textContent = '🎉 당첨!'; title.className = 'result-title win';
-      sub.textContent = '우리 반 친구들 전원에게 선물이 갑니다!';
+      document.getElementById('result-title').textContent = '🎉 당첨!';
+      document.getElementById('result-title').className = 'result-title win';
+      document.getElementById('result-sub').textContent = '우리 반 친구들 전원에게 선물이 갑니다!';
       document.getElementById('btn-win-group').classList.remove('hidden');
       setTimeout(() => {
         ['prod1','prod2','prod3','prod4'].forEach((id, i) => {
           const el = document.getElementById(id);
-          void el.offsetWidth; el.classList.add('prod-anim-' + (i+1));
+          void el.offsetWidth; el.classList.add('prod-anim-' + (i + 1));
         });
       }, 300);
       spawnConfetti();
     } else {
-      title.textContent = '아쉽게도 꽝!'; title.className = 'result-title lose';
-      sub.textContent = '한 번 더 공유하면 또 기회가 생겨요 💛';
+      document.getElementById('result-title').textContent = '아쉽게도 꽝!';
+      document.getElementById('result-title').className = 'result-title lose';
+      document.getElementById('result-sub').textContent = '한 번 더 공유하면 또 기회가 생겨요 💛';
       document.getElementById('btn-lose-group').classList.remove('hidden');
     }
   }
 
-  function showForm() {
-    document.getElementById('main-phone').style.display = 'none';
-    show('step-form');
-  }
+  function showForm() { show('step-form'); }
 
-  // 학교 검색 (학교알리미 API)
+  // ── 학교 검색 (NEIS API) ──
   function searchSchool(query) {
+    schoolSelected = false;
+    document.getElementById('school-code').value = '';
+    document.getElementById('school-region').value = '';
+    document.getElementById('school-input').classList.remove('school-selected');
     clearTimeout(searchTimer);
     const list = document.getElementById('school-list');
     if (query.length < 2) { list.classList.add('hidden'); list.innerHTML = ''; return; }
+    list.innerHTML = '<div class="school-item" style="color:#aaa;">검색 중...</div>';
+    list.classList.remove('hidden');
     searchTimer = setTimeout(async () => {
       try {
-        const url = `https://open.neis.go.kr/hub/schoolInfo?KEY=${API_KEY}&Type=json&pIndex=1&pSize=10&SCHUL_KND_SC_NM=초등학교&SCHUL_NM=${encodeURIComponent(query)}`;
+        const url = `https://open.neis.go.kr/hub/schoolInfo?KEY=${NEIS_KEY}&Type=json&pIndex=1&pSize=15&SCHUL_KND_SC_NM=초등학교&SCHUL_NM=${encodeURIComponent(query)}`;
         const res = await fetch(url);
         const data = await res.json();
         const schools = data?.schoolInfo?.[1]?.row || [];
         list.innerHTML = '';
         if (schools.length === 0) {
-          list.innerHTML = '<div class="school-item">검색 결과가 없습니다.</div>';
-          list.classList.remove('hidden'); return;
+          list.innerHTML = '<div class="school-item" style="color:#aaa;">검색 결과가 없습니다.</div>';
+          return;
         }
         schools.forEach(s => {
           const item = document.createElement('div');
           item.className = 'school-item';
-          item.innerHTML = `<div>${s.SCHUL_NM}</div><div class="school-region">${s.LCTN_SC_NM} · ${s.ORG_RDNMA}</div>`;
+          item.innerHTML = `<div style="font-weight:700;">${s.SCHUL_NM}</div><div class="school-sub">${s.LCTN_SC_NM} · ${s.ORG_RDNMA}</div>`;
           item.onclick = () => {
             document.getElementById('school-input').value = s.SCHUL_NM;
+            document.getElementById('school-input').classList.add('school-selected');
             document.getElementById('school-code').value = s.SD_SCHUL_CODE;
             document.getElementById('school-region').value = s.LCTN_SC_NM;
+            schoolSelected = true;
             list.classList.add('hidden');
           };
           list.appendChild(item);
         });
-        list.classList.remove('hidden');
-      } catch(e) { list.innerHTML = '<div class="school-item">검색 중 오류가 발생했습니다.</div>'; list.classList.remove('hidden'); }
-    }, 400);
+      } catch(e) {
+        list.innerHTML = '<div class="school-item" style="color:#e00;">오류가 발생했습니다. 다시 시도해 주세요.</div>';
+      }
+    }, 450);
   }
 
   function formatPhone(input) {
@@ -344,71 +324,59 @@
   }
 
   function submitForm() {
-    const school = document.getElementById('school-input').value.trim();
-    const grade = document.getElementById('grade').value;
-    const classNum = document.getElementById('class-num').value.trim();
+    const school    = document.getElementById('school-input').value.trim();
+    const grade     = document.getElementById('grade').value;
+    const classNum  = document.getElementById('class-num').value.trim();
     const classSize = document.getElementById('class-size').value.trim();
-    const parentName = document.getElementById('parent-name').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const consent = document.getElementById('consent-check').checked;
-    if (!school) { alert('학교를 검색하여 선택해 주세요.'); return; }
-    if (!document.getElementById('school-code').value) { alert('검색 결과에서 학교를 선택해 주세요.'); return; }
-    if (!grade) { alert('학년을 선택해 주세요.'); return; }
-    if (!classNum) { alert('반을 입력해 주세요.'); return; }
-    if (!classSize) { alert('학급 인원수를 입력해 주세요.'); return; }
-    if (!parentName) { alert('보호자 이름을 입력해 주세요.'); return; }
+    const parentName= document.getElementById('parent-name').value.trim();
+    const phone     = document.getElementById('phone').value.trim();
+    const consent   = document.getElementById('consent-check').checked;
+
+    if (!school || !schoolSelected)  { alert('학교를 검색하여 목록에서 선택해 주세요.'); return; }
+    if (!grade)                       { alert('학년을 선택해 주세요.'); return; }
+    if (!classNum)                    { alert('반을 입력해 주세요.'); return; }
+    if (!classSize)                   { alert('학급 인원수를 입력해 주세요.'); return; }
+    if (!parentName)                  { alert('보호자 이름을 입력해 주세요.'); return; }
     if (phone.replace(/\D/g,'').length < 10) { alert('연락처를 올바르게 입력해 주세요.'); return; }
-    if (!consent) { alert('개인정보 수집 및 이용에 동의해 주세요.'); return; }
+    if (!consent)                     { alert('개인정보 수집 및 이용에 동의해 주세요.'); return; }
 
     const btn = document.getElementById('submit-btn');
     btn.disabled = true; btn.textContent = '제출 중...';
 
-    // Google Apps Script로 전송 (추후 URL 연결)
     const payload = {
-      school, schoolCode: document.getElementById('school-code').value,
-      region: document.getElementById('school-region').value,
+      school,
+      schoolCode: document.getElementById('school-code').value,
+      region:     document.getElementById('school-region').value,
       grade, classNum, classSize, parentName, phone,
-      timestamp: new Date().toLocaleString('ko-KR')
+      timestamp:  new Date().toLocaleString('ko-KR')
     };
     console.log('제출 데이터:', payload);
 
-    // TODO: fetch(GOOGLE_SCRIPT_URL, { method:'POST', body: JSON.stringify(payload) })
-    // 지금은 바로 완료 화면으로
-    setTimeout(() => {
-      hide('step-form');
-      show('step-done');
-    }, 800);
+    // ── Google Apps Script URL 연결 예정 ──
+    // fetch(GAS_URL, { method:'POST', mode:'no-cors', body: JSON.stringify(payload) })
+    //   .then(() => { hide('step-form'); show('step-done'); });
+
+    setTimeout(() => { hide('step-form'); show('step-done'); }, 800);
   }
 
   function spawnConfetti() {
-    const container = document.getElementById('confetti-container');
-    container.innerHTML = '';
+    const c = document.getElementById('confetti-container'); c.innerHTML = '';
     const colors = ['#FFD700','#FF6B6B','#4ECDC4','#45B7D1','#96CEB4','#FFEAA7','#DDA0DD','#F1948A','#F7DC6F','#BB8FCE','#82E0AA','#FF9FF3'];
     for (let i = 0; i < 120; i++) {
-      const piece = document.createElement('div'); piece.classList.add('confetti-piece');
-      const color = colors[Math.floor(Math.random()*colors.length)];
-      const left = Math.random()*100, delay = Math.random()*1.2, duration = 2.2+Math.random()*1.8, size = 7+Math.random()*11, type = Math.floor(Math.random()*3);
-      piece.style.left = left+'%'; piece.style.animationDelay = delay+'s'; piece.style.animationDuration = duration+'s'; piece.style.backgroundColor = color;
-      if (type===0){piece.style.width=size+'px';piece.style.height=(size*1.3)+'px';piece.style.borderRadius='2px';}
-      else if(type===1){piece.style.width=size+'px';piece.style.height=size+'px';piece.style.borderRadius='50%';}
-      else{piece.style.width=(size*0.35)+'px';piece.style.height=(size*2.5)+'px';piece.style.borderRadius='2px';}
-      container.appendChild(piece);
+      const p = document.createElement('div'); p.classList.add('confetti-piece');
+      const size = 7 + Math.random()*11, type = Math.floor(Math.random()*3);
+      p.style.left = (Math.random()*100)+'%';
+      p.style.animationDelay = (Math.random()*1.2)+'s';
+      p.style.animationDuration = (2.2+Math.random()*1.8)+'s';
+      p.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+      if(type===0){p.style.width=size+'px';p.style.height=(size*1.3)+'px';p.style.borderRadius='2px';}
+      else if(type===1){p.style.width=size+'px';p.style.height=size+'px';p.style.borderRadius='50%';}
+      else{p.style.width=(size*0.35)+'px';p.style.height=(size*2.5)+'px';p.style.borderRadius='2px';}
+      c.appendChild(p);
     }
-    setTimeout(() => { container.innerHTML = ''; }, 5000);
+    setTimeout(() => { c.innerHTML=''; }, 5000);
   }
 
-  function resetAll() {
-    ['step-banner','step-confirm','step-shake','step-opening','step-result'].forEach(id=>document.getElementById(id).classList.add('hidden'));
-    document.getElementById('btn-win-group').classList.add('hidden');
-    document.getElementById('btn-lose-group').classList.add('hidden');
-    document.getElementById('confetti-container').innerHTML = '';
-    ['prod1','prod2','prod3','prod4'].forEach(id=>{
-      const el=document.getElementById(id); el.classList.remove('prod-anim-1','prod-anim-2','prod-anim-3','prod-anim-4'); el.style.opacity='0';
-    });
-    show('step-banner');
-  }
-
-  // 외부 클릭 시 학교 목록 닫기
   document.addEventListener('click', e => {
     if (!e.target.closest('.school-search-wrap')) document.getElementById('school-list').classList.add('hidden');
   });
