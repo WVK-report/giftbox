@@ -161,7 +161,6 @@
       animation: fadeUp 0.5s 0.25s ease both;
     }
 
-    /* 버튼 공통 */
     .btn {
       background: #FEE500;
       color: #3B1E08;
@@ -182,7 +181,6 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
 
-    /* 버튼 그룹 (결과 화면 2개 버튼) */
     .btn-group {
       width: 100%;
       max-width: 320px;
@@ -275,12 +273,12 @@
       <p class="result-title" id="result-title"></p>
       <p class="result-sub"   id="result-sub"></p>
 
-      <!-- 당첨일 때 버튼 -->
+      <!-- 당첨 버튼 -->
       <div class="btn-group hidden" id="btn-win-group">
         <button class="btn" onclick="resetAll()">다시 테스트</button>
       </div>
 
-      <!-- 꽝일 때 버튼 -->
+      <!-- 꽝 버튼 -->
       <div class="btn-group hidden" id="btn-lose-group">
         <button class="btn" onclick="doKakaoShare()">한 번 더 공유하기</button>
       </div>
@@ -290,29 +288,32 @@
 </div>
 
 <script>
-  // 카카오 SDK 초기화
   Kakao.init('2a06402bffbfd011de0c92d6a8a3989a');
 
-  function doKakaoShare() {
-    const currentUrl = window.location.href;
+  // 결과 페이지 OG 이미지 가져오기 (없으면 기본 이미지)
+  function getOgImage() {
+    const ogImg = document.querySelector('meta[property="og:image"]');
+    return ogImg ? ogImg.content : 'https://i.imgur.com/pqUst9E.jpg';
+  }
 
+  function doKakaoShare() {
     Kakao.Share.sendDefault({
       objectType: 'feed',
       content: {
         title: '우리 아이랑 나는 어떤 마음 유형일까요? 🦁',
         description: '서로 다른 마음 표현 방식, 테스트로 알아보고 선물상자도 열어보세요!',
-        imageUrl: 'https://i.imgur.com/pqUst9E.jpg',
+        imageUrl: getOgImage(),
         link: {
-          mobileWebUrl: currentUrl,
-          webUrl: currentUrl,
+          mobileWebUrl: 'https://wvhomelh.lovable.app/result',
+          webUrl: 'https://wvhomelh.lovable.app/result',
         },
       },
       buttons: [
         {
           title: '자세히 보기',
           link: {
-            mobileWebUrl: currentUrl,
-            webUrl: currentUrl,
+            mobileWebUrl: 'https://wvhomelh.lovable.app/result',
+            webUrl: 'https://wvhomelh.lovable.app/result',
           },
         },
         {
@@ -325,10 +326,9 @@
       ],
     });
 
-    // 카카오톡 열린 후 돌아오면 확인 화면으로
     setTimeout(() => {
       hide('step-banner');
-      hide('step-result'); // 꽝 후 재공유 시 결과 화면도 숨김
+      hide('step-result');
       show('step-confirm');
     }, 1000);
   }
@@ -339,7 +339,6 @@
   function openBox() {
     hide('step-confirm');
 
-    // STEP 3: 흔들기
     show('step-shake');
     const shakingBox = document.getElementById('box-shaking');
     shakingBox.classList.remove('anim-shake');
@@ -375,7 +374,6 @@
     const title = document.getElementById('result-title');
     const sub   = document.getElementById('result-sub');
 
-    // 버튼 그룹 초기화
     document.getElementById('btn-win-group').classList.add('hidden');
     document.getElementById('btn-lose-group').classList.add('hidden');
 
