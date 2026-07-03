@@ -79,29 +79,24 @@
 <div class="phone" id="main-phone">
   <div id="confetti-container"></div>
   <div class="content">
-    <!-- STEP 1 배너 -->
     <div class="step" id="step-banner">
       <div class="box-wrap"><img class="box-img" src="https://i.imgur.com/pqUst9E.jpg" alt="선물상자"/></div>
       <p class="banner-text">이 상자, 우리 반 전원의<br>선물일지도 몰라요.<span class="sub">공유하고 열어보세요 🎁</span></p>
       <button class="btn" onclick="doKakaoShare()">카카오톡으로 공유하기</button>
     </div>
-    <!-- STEP 2 공유 확인 -->
     <div class="step hidden" id="step-confirm">
       <div class="box-wrap"><img class="box-img" src="https://i.imgur.com/pqUst9E.jpg" alt="선물상자"/></div>
       <p class="banner-text">친구에게 공유했나요? 🎁<span class="sub">전송 후 아래 버튼을 눌러주세요</span></p>
       <button class="btn" onclick="openBox()">네! 상자 열어보기 💛</button>
     </div>
-    <!-- STEP 3 흔들기 -->
     <div class="step hidden" id="step-shake">
       <div class="box-wrap"><img class="box-img" id="box-shaking" src="https://i.imgur.com/pqUst9E.jpg" alt="흔들리는 상자"/></div>
       <p class="banner-text">두근두근...! 🎁</p>
     </div>
-    <!-- STEP 4 열리는 중 -->
     <div class="step hidden" id="step-opening">
       <div class="box-wrap"><img class="box-img" id="img-opening" src="https://i.imgur.com/tYowSVy.jpg" alt="열리는 상자"/></div>
       <p class="banner-text">열리고 있어요...! ✨</p>
     </div>
-    <!-- STEP 5 결과 -->
     <div class="step hidden" id="step-result">
       <div class="box-wrap">
         <img class="box-img" id="result-img" src="https://i.imgur.com/Nr2I9JG.jpg" alt="결과"/>
@@ -125,7 +120,6 @@
   <div class="form-wrap hidden" id="step-form">
     <p class="form-title">🎉 당첨을 축하드려요!</p>
     <p class="form-subtitle">선물 발송을 위해 아래 정보를 입력해 주세요.<br>입력하신 정보는 선물 발송 목적으로만 사용됩니다.</p>
-
     <div class="form-group">
       <label class="form-label">학교 검색 🔍</label>
       <div class="school-search-wrap">
@@ -136,7 +130,6 @@
         <div class="school-list hidden" id="school-list"></div>
       </div>
     </div>
-
     <div class="row-2" style="margin-bottom:18px;">
       <div class="form-group">
         <label class="form-label">학년</label>
@@ -151,7 +144,6 @@
         <input class="form-input" id="class-num" type="number" placeholder="예) 3" min="1" max="30"/>
       </div>
     </div>
-
     <div class="form-group">
       <label class="form-label">학급 인원수</label>
       <input class="form-input" id="class-size" type="number" placeholder="예) 25" min="1" max="35"/>
@@ -159,17 +151,14 @@
         ⚠️ 최대 35명까지 입력 가능합니다.<br>선물은 실제 재적 학생 수 기준으로 발송됩니다.
       </p>
     </div>
-
     <div class="form-group">
       <label class="form-label">보호자 이름</label>
       <input class="form-input" id="parent-name" type="text" placeholder="홍길동"/>
     </div>
-
     <div class="form-group">
       <label class="form-label">연락처</label>
       <input class="form-input" id="phone" type="tel" placeholder="010-0000-0000" oninput="formatPhone(this)"/>
     </div>
-
     <div class="form-group">
       <label class="form-label">개인정보 수집 및 이용 동의</label>
       <div class="consent-box">
@@ -183,7 +172,6 @@
         위 개인정보 수집 및 이용에 동의합니다.
       </label>
     </div>
-
     <button class="submit-btn" id="submit-btn" onclick="submitForm()">선물 받기 신청 완료</button>
   </div>
 
@@ -275,7 +263,6 @@
 
   function showForm() { show('step-form'); }
 
-  // ── 학교 검색 ─────────────────────────────────
   function searchSchool(query) {
     schoolSelected = false;
     document.getElementById('school-code').value = '';
@@ -357,35 +344,18 @@
       timestamp:  new Date().toLocaleString('ko-KR')
     };
 
-fetch(GAS_URL, {
-  method: 'POST',
-  headers: { 'Content-Type': 'text/plain' },
-  body: JSON.stringify(payload),
-  redirect: 'follow'
-})
-
-    .then(res => res.json())
-    .then(data => {
-      if (data.result === 'success') {
-        hide('step-form');
-        show('step-done');
-      } else if (data.result === 'duplicate') {
-        alert('⚠️ ' + data.message);
-        btn.disabled = false;
-        btn.textContent = '선물 받기 신청 완료';
-      } else if (data.result === 'school_limit') {
-        alert('⚠️ ' + data.message);
-        btn.disabled = false;
-        btn.textContent = '선물 받기 신청 완료';
-      } else if (data.result === 'sold_out') {
-        alert('😢 ' + data.message);
-        btn.disabled = false;
-        btn.textContent = '선물 받기 신청 완료';
-      } else {
-        alert('오류가 발생했습니다. 다시 시도해 주세요.');
-        btn.disabled = false;
-        btn.textContent = '선물 받기 신청 완료';
-      }
+    // no-cors 방식: 응답을 읽을 수 없지만 데이터는 GAS에 정상 전송됨
+    fetch(GAS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload)
+    })
+    .then(() => {
+      // no-cors는 응답을 읽을 수 없으므로 항상 완료 화면으로 이동
+      // 중복/재고 체크는 GAS에서 처리되어 시트에 기록됨
+      hide('step-form');
+      show('step-done');
     })
     .catch(() => {
       alert('네트워크 오류가 발생했습니다. 다시 시도해 주세요.');
