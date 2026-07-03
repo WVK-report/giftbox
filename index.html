@@ -44,8 +44,6 @@
     .btn-group { width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 12px; }
     .hidden { display: none !important; }
     .step { width: 100%; display: flex; flex-direction: column; align-items: center; }
-
-    /* 정보 입력 폼 */
     .form-wrap { position: absolute; inset: 0; z-index: 50; width: 100%; height: 100%; overflow-y: auto; background: rgba(255,255,255,0.97); display: flex; flex-direction: column; padding: 36px 24px 48px; }
     .form-title { font-size: 22px; font-weight: 900; color: #3B1E08; margin-bottom: 6px; text-align: center; }
     .form-subtitle { font-size: 13px; color: #888; text-align: center; margin-bottom: 28px; line-height: 1.6; }
@@ -69,8 +67,6 @@
     .submit-btn { margin-top: 28px; background: #FEE500; color: #3B1E08; border: none; border-radius: 16px; padding: 18px; font-size: 17px; font-weight: 800; cursor: pointer; width: 100%; box-shadow: 0 4px 14px rgba(0,0,0,0.15); transition: transform 0.1s; font-family: inherit; letter-spacing: -0.3px; }
     .submit-btn:active { transform: scale(0.97); }
     .submit-btn:disabled { background: #e0e0e0; color: #aaa; cursor: not-allowed; transform: none; }
-
-    /* 완료 화면 */
     .done-wrap { position: absolute; inset: 0; z-index: 60; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 32px; text-align: center; background-image: url('https://i.imgur.com/KASJTsw.jpg'); background-size: cover; background-position: center; }
     .done-wrap::before { content:''; position:absolute; inset:0; background:rgba(0,0,0,0.2); }
     .done-inner { position: relative; z-index: 1; }
@@ -136,6 +132,7 @@
         <input class="form-input" id="school-input" type="text" placeholder="학교 이름을 입력하세요 (2글자 이상)" oninput="searchSchool(this.value)" autocomplete="off"/>
         <input type="hidden" id="school-code"/>
         <input type="hidden" id="school-region"/>
+        <input type="hidden" id="school-address"/>
         <div class="school-list hidden" id="school-list"></div>
       </div>
     </div>
@@ -155,13 +152,13 @@
       </div>
     </div>
 
-<div class="form-group">
-  <label class="form-label">학급 인원수</label>
-  <input class="form-input" id="class-size" type="number" placeholder="예) 25" min="1" max="35"/>
-  <p style="font-size:12px; color:#e07000; margin-top:6px; line-height:1.6;">
-    ⚠️ 최대 35명까지 입력 가능합니다.<br>선물은 실제 재적 학생 수 기준으로 발송됩니다.
-  </p>
-</div>
+    <div class="form-group">
+      <label class="form-label">학급 인원수</label>
+      <input class="form-input" id="class-size" type="number" placeholder="예) 25" min="1" max="35"/>
+      <p style="font-size:12px; color:#e07000; margin-top:6px; line-height:1.6;">
+        ⚠️ 최대 35명까지 입력 가능합니다.<br>선물은 실제 재적 학생 수 기준으로 발송됩니다.
+      </p>
+    </div>
 
     <div class="form-group">
       <label class="form-label">보호자 이름</label>
@@ -203,6 +200,7 @@
 <script>
   Kakao.init('2a06402bffbfd011de0c92d6a8a3989a');
   const NEIS_KEY = '2c0ab4a2586640de86a6f78b8ced2ad3';
+  const GAS_URL  = 'https://script.google.com/macros/s/AKfycbzY7MJXVY5Av9_gKbWHxK_tsg_7H_agGp3LOsFg3GjaPcbbbg6vkv0fBysvWMYSHru2xQ/exec';
   let searchTimer = null;
   let schoolSelected = false;
 
@@ -277,11 +275,12 @@
 
   function showForm() { show('step-form'); }
 
-  // ── 학교 검색 (NEIS API) ──
+  // ── 학교 검색 ─────────────────────────────────
   function searchSchool(query) {
     schoolSelected = false;
     document.getElementById('school-code').value = '';
     document.getElementById('school-region').value = '';
+    document.getElementById('school-address').value = '';
     document.getElementById('school-input').classList.remove('school-selected');
     clearTimeout(searchTimer);
     const list = document.getElementById('school-list');
@@ -308,6 +307,7 @@
             document.getElementById('school-input').classList.add('school-selected');
             document.getElementById('school-code').value = s.SD_SCHUL_CODE;
             document.getElementById('school-region').value = s.LCTN_SC_NM;
+            document.getElementById('school-address').value = s.ORG_RDNMA;
             schoolSelected = true;
             list.classList.add('hidden');
           };
@@ -327,44 +327,69 @@
   }
 
   function submitForm() {
-    const school    = document.getElementById('school-input').value.trim();
-    const grade     = document.getElementById('grade').value;
-    const classNum  = document.getElementById('class-num').value.trim();
-    const classSize = document.getElementById('class-size').value.trim();
-    const parentName= document.getElementById('parent-name').value.trim();
-    const phone     = document.getElementById('phone').value.trim();
-    const consent   = document.getElementById('consent-check').checked;
+    const school     = document.getElementById('school-input').value.trim();
+    const grade      = document.getElementById('grade').value;
+    const classNum   = document.getElementById('class-num').value.trim();
+    const classSize  = document.getElementById('class-size').value.trim();
+    const parentName = document.getElementById('parent-name').value.trim();
+    const phone      = document.getElementById('phone').value.trim();
+    const consent    = document.getElementById('consent-check').checked;
 
     if (!school || !schoolSelected)  { alert('학교를 검색하여 목록에서 선택해 주세요.'); return; }
     if (!grade)                       { alert('학년을 선택해 주세요.'); return; }
     if (!classNum)                    { alert('반을 입력해 주세요.'); return; }
-const cs = parseInt(classSize);
-if (!classSize || isNaN(cs) || cs < 1 || cs > 35) {
-  alert('학급 인원수는 1~35명 사이로 입력해 주세요.');
-  return;
-}
-
+    const cs = parseInt(classSize);
+    if (!classSize || isNaN(cs) || cs < 1 || cs > 35) { alert('학급 인원수는 1~35명 사이로 입력해 주세요.'); return; }
     if (!parentName)                  { alert('보호자 이름을 입력해 주세요.'); return; }
     if (phone.replace(/\D/g,'').length < 10) { alert('연락처를 올바르게 입력해 주세요.'); return; }
     if (!consent)                     { alert('개인정보 수집 및 이용에 동의해 주세요.'); return; }
 
     const btn = document.getElementById('submit-btn');
-    btn.disabled = true; btn.textContent = '제출 중...';
+    btn.disabled = true;
+    btn.textContent = '제출 중...';
 
     const payload = {
       school,
       schoolCode: document.getElementById('school-code').value,
       region:     document.getElementById('school-region').value,
+      address:    document.getElementById('school-address').value,
       grade, classNum, classSize, parentName, phone,
       timestamp:  new Date().toLocaleString('ko-KR')
     };
-    console.log('제출 데이터:', payload);
 
-    // ── Google Apps Script URL 연결 예정 ──
-    // fetch(GAS_URL, { method:'POST', mode:'no-cors', body: JSON.stringify(payload) })
-    //   .then(() => { hide('step-form'); show('step-done'); });
-
-    setTimeout(() => { hide('step-form'); show('step-done'); }, 800);
+    fetch(GAS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.result === 'success') {
+        hide('step-form');
+        show('step-done');
+      } else if (data.result === 'duplicate') {
+        alert('⚠️ ' + data.message);
+        btn.disabled = false;
+        btn.textContent = '선물 받기 신청 완료';
+      } else if (data.result === 'school_limit') {
+        alert('⚠️ ' + data.message);
+        btn.disabled = false;
+        btn.textContent = '선물 받기 신청 완료';
+      } else if (data.result === 'sold_out') {
+        alert('😢 ' + data.message);
+        btn.disabled = false;
+        btn.textContent = '선물 받기 신청 완료';
+      } else {
+        alert('오류가 발생했습니다. 다시 시도해 주세요.');
+        btn.disabled = false;
+        btn.textContent = '선물 받기 신청 완료';
+      }
+    })
+    .catch(() => {
+      alert('네트워크 오류가 발생했습니다. 다시 시도해 주세요.');
+      btn.disabled = false;
+      btn.textContent = '선물 받기 신청 완료';
+    });
   }
 
   function spawnConfetti() {
