@@ -357,11 +357,13 @@
       timestamp:  new Date().toLocaleString('ko-KR')
     };
 
-    fetch(GAS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    })
+fetch(GAS_URL, {
+  method: 'POST',
+  headers: { 'Content-Type': 'text/plain' },
+  body: JSON.stringify(payload),
+  redirect: 'follow'
+})
+
     .then(res => res.json())
     .then(data => {
       if (data.result === 'success') {
