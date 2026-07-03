@@ -47,6 +47,7 @@
       z-index: 0;
     }
 
+    /* 색종이 */
     #confetti-container {
       position: absolute;
       top: 0; left: 0;
@@ -69,6 +70,57 @@
       animation: confettiFall linear forwards;
     }
 
+    /* 상품 이미지 팝업 */
+    .product-item {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      z-index: 20;
+      pointer-events: none;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+    }
+
+    @keyframes productPop1 {
+      0%   { transform: translate(0, 0) rotate(0deg) scale(0);   opacity: 0; }
+      40%  { transform: translate(-80px, -180px) rotate(-15deg) scale(1.2); opacity: 1; }
+      60%  { transform: translate(-90px, -160px) rotate(-12deg) scale(1);   opacity: 1; }
+      100% { transform: translate(-85px, -155px) rotate(-12deg) scale(1);   opacity: 1; }
+    }
+
+    @keyframes productPop2 {
+      0%   { transform: translate(0, 0) rotate(0deg) scale(0);   opacity: 0; }
+      40%  { transform: translate(90px, -200px) rotate(18deg) scale(1.2); opacity: 1; }
+      60%  { transform: translate(100px, -180px) rotate(15deg) scale(1);  opacity: 1; }
+      100% { transform: translate(95px, -175px) rotate(15deg) scale(1);   opacity: 1; }
+    }
+
+    @keyframes productPop3 {
+      0%   { transform: translate(0, 0) rotate(0deg) scale(0);   opacity: 0; }
+      40%  { transform: translate(-50px, -280px) rotate(10deg) scale(1.2); opacity: 1; }
+      60%  { transform: translate(-55px, -260px) rotate(8deg) scale(1);   opacity: 1; }
+      100% { transform: translate(-52px, -255px) rotate(8deg) scale(1);   opacity: 1; }
+    }
+
+    @keyframes productPop4 {
+      0%   { transform: translate(0, 0) rotate(0deg) scale(0);   opacity: 0; }
+      40%  { transform: translate(60px, -260px) rotate(-20deg) scale(1.2); opacity: 1; }
+      60%  { transform: translate(65px, -240px) rotate(-18deg) scale(1);   opacity: 1; }
+      100% { transform: translate(62px, -235px) rotate(-18deg) scale(1);   opacity: 1; }
+    }
+
+    @keyframes float {
+      0%   { transform-origin: center; }
+      50%  { margin-top: -8px; }
+      100% { margin-top: 0px; }
+    }
+
+    .product-item.p1 { animation: productPop1 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s both; }
+    .product-item.p2 { animation: productPop2 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.35s both; }
+    .product-item.p3 { animation: productPop3 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s both; }
+    .product-item.p4 { animation: productPop4 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.65s both; }
+
+    /* 콘텐츠 */
     .content {
       position: relative;
       z-index: 1;
@@ -87,6 +139,7 @@
       align-items: center;
       justify-content: center;
       margin-bottom: 28px;
+      position: relative;
     }
 
     .box-img {
@@ -248,8 +301,13 @@
 
     <!-- STEP 5: 결과 -->
     <div class="step hidden" id="step-result">
-      <div class="box-wrap">
+      <div class="box-wrap" id="result-box-wrap">
         <img class="box-img anim-pop" id="result-img" src="https://i.imgur.com/Nr2I9JG.jpg" alt="결과" />
+        <!-- 상품 이미지들 (당첨 시 표시) -->
+        <img class="product-item p1 hidden" id="prod1" src="https://i.imgur.com/swGtqVA.jpg" alt="상품1" />
+        <img class="product-item p2 hidden" id="prod2" src="https://i.imgur.com/oJHpVTW.jpg" alt="상품2" />
+        <img class="product-item p3 hidden" id="prod3" src="https://i.imgur.com/M75X3ci.jpg" alt="상품3" />
+        <img class="product-item p4 hidden" id="prod4" src="https://i.imgur.com/EomEFhr.jpg" alt="상품4" />
       </div>
       <p class="result-title" id="result-title"></p>
       <p class="result-sub"   id="result-sub"></p>
@@ -355,11 +413,29 @@
     document.getElementById('btn-win-group').classList.add('hidden');
     document.getElementById('btn-lose-group').classList.add('hidden');
 
+    // 상품 이미지 초기화
+    ['prod1','prod2','prod3','prod4'].forEach(id => {
+      const el = document.getElementById(id);
+      el.classList.add('hidden');
+      el.classList.remove('p1','p2','p3','p4');
+      void el.offsetWidth;
+    });
+
     if (isWin) {
       title.textContent = '🎉 당첨!';
       title.className   = 'result-title win';
       sub.textContent   = '우리 반 친구들 전원에게 선물이 갑니다!';
       document.getElementById('btn-win-group').classList.remove('hidden');
+
+      // 상품 이미지 튀어나오기
+      setTimeout(() => {
+        ['prod1','prod2','prod3','prod4'].forEach((id, i) => {
+          const el = document.getElementById(id);
+          el.classList.remove('hidden');
+          el.classList.add('p' + (i + 1));
+        });
+      }, 300);
+
       spawnConfetti();
     } else {
       title.textContent = '아쉽게도 꽝!';
@@ -422,6 +498,12 @@
     document.getElementById('btn-win-group').classList.add('hidden');
     document.getElementById('btn-lose-group').classList.add('hidden');
     document.getElementById('confetti-container').innerHTML = '';
+
+    // 상품 이미지 초기화
+    ['prod1','prod2','prod3','prod4'].forEach(id => {
+      document.getElementById(id).classList.add('hidden');
+    });
+
     show('step-banner');
   }
 </script>
