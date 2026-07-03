@@ -189,25 +189,6 @@
       gap: 12px;
     }
 
-    .btn-outline {
-      background: rgba(255,255,255,0.15);
-      color: #fff;
-      border: 2px solid rgba(255,255,255,0.6);
-      border-radius: 16px;
-      padding: 16px 28px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      width: 100%;
-      backdrop-filter: blur(4px);
-      transition: transform 0.12s, background 0.12s;
-      letter-spacing: -0.3px;
-    }
-    .btn-outline:active {
-      transform: scale(0.96);
-      background: rgba(255,255,255,0.25);
-    }
-
     .hidden { display: none !important; }
 
     .step {
@@ -273,12 +254,10 @@
       <p class="result-title" id="result-title"></p>
       <p class="result-sub"   id="result-sub"></p>
 
-      <!-- 당첨 버튼 -->
       <div class="btn-group hidden" id="btn-win-group">
         <button class="btn" onclick="resetAll()">다시 테스트</button>
       </div>
 
-      <!-- 꽝 버튼 -->
       <div class="btn-group hidden" id="btn-lose-group">
         <button class="btn" onclick="doKakaoShare()">한 번 더 공유하기</button>
       </div>
@@ -290,7 +269,6 @@
 <script>
   Kakao.init('2a06402bffbfd011de0c92d6a8a3989a');
 
-  // 결과 페이지 OG 이미지 가져오기 (없으면 기본 이미지)
   function getOgImage() {
     const ogImg = document.querySelector('meta[property="og:image"]');
     return ogImg ? ogImg.content : 'https://i.imgur.com/pqUst9E.jpg';
